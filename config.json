@@ -1,0 +1,6 @@
+{
+    "num_nodes": 100,
+    "edge_probability": 0.1,
+    "network_type": "erdos_renyi",
+    "m_parameter": 3
+}
