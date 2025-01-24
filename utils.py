@@ -1,5 +1,7 @@
-# Utility functions for:
-# - Generating random graphs (e.g., Erdos-Renyi, Barabasi-Albert)
-# - Computing degree and average neighbor degree
-# - Saving and loading data
-# - Creating plots
+import networkx as nx
+
+def save_network(graph, path):
+    nx.write_edgelist(graph, path, data=False)
+
+def load_network(path):
+    return nx.read_edgelist(path, nodetype=int)
