@@ -1,14 +1,21 @@
-# Import necessary libraries
-# Import utility functions for network analysis
+import pandas as pd
+import networkx as nx
+from utils import load_network
 
-# Load network data from outputs/networks/
+# Load network
+G = load_network("outputs/networks/network.edgelist")
 
-# For each node:
-# - Compute its degree (number of friends)
-# - Compute the average degree of its neighbors
+results = []
+for node in G.nodes:
+    degree = G.degree[node]
+    neighbor_degrees = [G.degree[neighbor] for neighbor in G.neighbors(node)]
+    avg_neighbor_degree = sum(neighbor_degrees) / len(neighbor_degrees) if neighbor_degrees else 0
 
-# Compare each node's degree to the average degree of its neighbors
-# - Count how many nodes satisfy the friendship paradox
-# - Calculate statistical metrics (e.g., percentage of nodes affected)
+    # Record whether the paradox holds
+    paradox_holds = avg_neighbor_degree > degree
+    results.append({"node": node, "degree": degree, "avg_neighbor_degree": avg_neighbor_degree, "paradox_holds": paradox_holds})
 
-# Save the analysis results to outputs/analysis_results.csv
+# Save results
+df = pd.DataFrame(results)
+df.to_csv("outputs/analysis_results.csv", index=False)
+print("Analysis complete. Results saved to outputs/analysis_results.csv.")
